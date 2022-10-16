@@ -32,42 +32,40 @@ function execSqlQuery(sqlQry, res) {
     });
 }
 
-// Get Veiculos
-app.get('/veiculos', (req, res) => {
-    execSqlQuery(`SELECT * FROM veiculo`,
+// Get Vagas
+app.get('/vagas', (req, res) => {
+    execSqlQuery(`SELECT * FROM vaga`,
     res);
 });
 
 // Get by id
-app.get('/veiculos/:id?', (req, res) => {
+app.get('/vagas/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE ID = '+
     parseInt(req.params.id);
-    execSqlQuery(`SELECT * FROM veiculo` + filter, res);
+    execSqlQuery(`SELECT * FROM vaga` + filter, res);
 });
 
 // POST
-app.post('/veiculos', (req, res) => {
-    placa = req.body.placa,
-    cor = req.body.cor,
-    cliente_id = req.body.cliente_id,
-    modelo_id = req.body.modelo_id,
-    execSqlQuery(`INSERT INTO veiculo (placa, cor, cliente_id, modelo_id) VALUES ('${placa}', '${cor}', '${cliente_id}', '${modelo_id}')`, res);
+app.post('/vagas', (req, res) => {
+    valor = req.body.valor,
+    numVaga = req.body.numVaga,
+    execSqlQuery(`INSERT INTO vaga (valor, numVaga) VALUES ('${valor}', '${numVaga}')`, res);
 });
 
 // Atualizar
-app.put('/veiculos/:id?', (req, res) => {
-    nome = req.body.nome.substring(0,45);
+app.put('/vagas/:id?', (req, res) => {
+    valor = req.body.valor.decimal(10,2);
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`UPDATE veiculo SET nome = '${nome}' ` + filter, res);
+    execSqlQuery(`UPDATE veiculo SET nome = '${valor}' ` + filter, res);
 });
 
 // Delete
-app.delete('/veiculos/:id?', (req, res) => {
+app.delete('/vagas/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`DELETE FROM veiculo` + filter, res);
+    execSqlQuery(`DELETE FROM vaga` + filter, res);
 });

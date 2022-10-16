@@ -32,42 +32,43 @@ function execSqlQuery(sqlQry, res) {
     });
 }
 
-// Get Veiculos
-app.get('/veiculos', (req, res) => {
-    execSqlQuery(`SELECT * FROM veiculo`,
+// Get Estacionamento
+app.get('/estacionamento', (req, res) => {
+    execSqlQuery(`SELECT * FROM estacionamento`,
     res);
 });
 
 // Get by id
-app.get('/veiculos/:id?', (req, res) => {
+app.get('/estacionamento/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE ID = '+
     parseInt(req.params.id);
-    execSqlQuery(`SELECT * FROM veiculo` + filter, res);
+    execSqlQuery(`SELECT * FROM estacionamento` + filter, res);
 });
 
 // POST
-app.post('/veiculos', (req, res) => {
-    placa = req.body.placa,
-    cor = req.body.cor,
-    cliente_id = req.body.cliente_id,
-    modelo_id = req.body.modelo_id,
-    execSqlQuery(`INSERT INTO veiculo (placa, cor, cliente_id, modelo_id) VALUES ('${placa}', '${cor}', '${cliente_id}', '${modelo_id}')`, res);
+app.post('/estacionamento', (req, res) => {
+    entrada = req.body.entrada,
+    saida = req.body.saida,
+    valor = req.body.valor,
+    veiculo_id = req.body.veiculo_id,
+    vaga_id = req.body.vaga_id,
+    execSqlQuery(`INSERT INTO estacionamento (entrada, saida, valor, veiculo_id, vaga_id) VALUES ('${entrada}', '${saida}', '${valor}, '${veiculo_id}', '${vaga_id}')`, res);
 });
 
 // Atualizar
-app.put('/veiculos/:id?', (req, res) => {
+app.put('/estacionamento/:id?', (req, res) => {
     nome = req.body.nome.substring(0,45);
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`UPDATE veiculo SET nome = '${nome}' ` + filter, res);
+    execSqlQuery(`UPDATE estacionamento SET nome = '${nome}' ` + filter, res);
 });
 
 // Delete
-app.delete('/veiculos/:id?', (req, res) => {
+app.delete('/estacionamento/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`DELETE FROM veiculo` + filter, res);
+    execSqlQuery(`DELETE FROM estacionamento` + filter, res);
 });

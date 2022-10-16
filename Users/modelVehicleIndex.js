@@ -7,7 +7,7 @@ const mysql = require('mysql2');
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.json({message: 'Funcionado' }));
+app.get('/', (req, res) => res.json({message: 'Funcionando' }));
 
 //inicio serviço
 app.listen(port);
@@ -32,42 +32,39 @@ function execSqlQuery(sqlQry, res) {
     });
 }
 
-// Get Veiculos
-app.get('/veiculos', (req, res) => {
-    execSqlQuery(`SELECT * FROM veiculo`,
+// Get modelos
+app.get('/modelos', (req, res) => {
+    execSqlQuery(`SELECT * FROM modelo`,
     res);
 });
 
 // Get by id
-app.get('/veiculos/:id?', (req, res) => {
+app.get('/modelos/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE ID = '+
     parseInt(req.params.id);
-    execSqlQuery(`SELECT * FROM veiculo` + filter, res);
+    execSqlQuery(`SELECT * FROM modelo` + filter, res);
 });
 
-// POST
-app.post('/veiculos', (req, res) => {
-    placa = req.body.placa,
-    cor = req.body.cor,
-    cliente_id = req.body.cliente_id,
-    modelo_id = req.body.modelo_id,
-    execSqlQuery(`INSERT INTO veiculo (placa, cor, cliente_id, modelo_id) VALUES ('${placa}', '${cor}', '${cliente_id}', '${modelo_id}')`, res);
+// POST ok
+app.post('/modelos', (req, res) => {
+    nome = req.body.nome.substring(0,45),
+    execSqlQuery(`INSERT INTO modelo (nome) VALUES ('${nome}')`, res);
 });
 
 // Atualizar
-app.put('/veiculos/:id?', (req, res) => {
+app.put('/modelos/:id?', (req, res) => {
     nome = req.body.nome.substring(0,45);
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`UPDATE veiculo SET nome = '${nome}' ` + filter, res);
+    execSqlQuery(`UPDATE modelo SET nome = '${nome}' ` + filter, res);
 });
 
 // Delete
-app.delete('/veiculos/:id?', (req, res) => {
+app.delete('/modelos/:id?', (req, res) => {
     let filter = '';
     if(req.params.id) filter = ' WHERE id = '+
     parseInt(req.params.id);
-    execSqlQuery(`DELETE FROM veiculo` + filter, res);
+    execSqlQuery(`DELETE FROM modelo` + filter, res);
 });
